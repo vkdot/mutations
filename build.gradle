@@ -1,0 +1,32 @@
+plugins {
+    id 'org.springframework.boot' version '2.3.2.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+    id 'java'
+    id 'jacoco'
+    id 'info.solidsoft.pitest' version '1.5.1'
+}
+
+group = 'com.vkdot'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter'
+    testImplementation('org.springframework.boot:spring-boot-starter-test')
+    testImplementation 'org.powermock:powermock-core:2.0.7'
+}
+
+pitest {
+    timestampedReports = false
+    mutationThreshold = 100
+    mutators = ['ALL']
+}
+
+jacocoTestReport.dependsOn 'test'
+build.dependsOn 'jacocoTestReport'
+build.dependsOn 'pitest'
+
